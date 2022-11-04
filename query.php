@@ -24,7 +24,7 @@ if(isset($res['code'])){
 		Array
 		(
 			[code] => 10000
-			[msg] => 查询成功
+			[message] => 查询成功
 			[data] => Array
 				(
 					[id] => 130
@@ -52,8 +52,8 @@ if(isset($res['code'])){
 		*/
 		print_r($res);
 	}else{
-		//出现失败 $res['msg'] 是失败返回的内容
-		echo $res['msg'];
+		//出现失败 $res['message'] 是失败返回的内容
+		echo $res['message'];
 	}
 }else{
 	echo "查询失败";
