@@ -3,46 +3,57 @@
 
 include 'config.php';
 include 'myPay.class.php';
-$myCodePay=new myCodePay();
+$myPay=new myPay();
 
 //请求参数
 $data=array(
-	'out_trade_no'=>'20220810104113',//你平台的订单号
+    'mid'=>$mypay_config['id'],
+	'out_trade_no'=>'2022110418414887214707',//你平台的订单号
 	'timestamp'=>time(),
 );
 
 //生成签名并加入到请求参数里
-$data['sign']=$myPay->getSign($codepay_config['key'],$data);
+$data['sign']=$myPay->getSign($mypay_config['key'],$data);
 
-$res=json_decode($myPay->post($codepay_config['url']."/api/api/queryOrder",$data),true);
+$res=json_decode($myPay->post($mypay_config['url']."/api/client.order/query",$data),true);
 if(isset($res['code'])){
-	if($res['code']==1){
+	if($res['code']==10000){
 		//查询成功
-		
+
 		/**  以下为$res的结构
 		Array
 		(
-			[code] => 1
-			[message] => 查询成功
+			[code] => 10000
+			[msg] => 查询成功
 			[data] => Array
 				(
-					[order_no] => 2022070222182860580173
-					[out_trade_no] => 20220702141819
+					[id] => 130
+					[sid] => 1
+					[order_no] => 2022110418414928718594
+					[supplier_no] => 2022110422001407821454183314
+					[out_trade_no] => 2022110418414887214707
 					[price] => 0.01
 					[original_price] => 0.01
-					[type] => 0
-					[create_time] => 1656771508
-					[payment_time] => 0
-					[timeout_time] => 1656771808
-					[status] => 0
+					[pay_type] => 2
+					[pay_status] => 1
+					[create_time] => 1667558509
+					[payment_time] => 1667558536
+					[timeout_time] => 1667562109
+					[gateway] => 2
+					[notify_url] => http://yanzheng.giao.cc/index
+					[return_url] => http://yanzheng.giao.cc/index/buy
+					[notify_status] => 2
+					[code_id] => 0
+					[account_id] => 0
+					[source] => 0
 				)
 
 		)
 		*/
 		print_r($res);
 	}else{
-		//出现失败 $res['message'] 是失败返回的内容
-		echo $res['message'];
+		//出现失败 $res['msg'] 是失败返回的内容
+		echo $res['msg'];
 	}
 }else{
 	echo "查询失败";
